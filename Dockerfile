@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:latest
 MAINTAINER Akhyar Amarullah "akhyrul@gmail.com"
 
 # system dependencies
@@ -18,5 +18,6 @@ RUN wget -q -O /tmp/hyper.tar.gz https://hyper-install.s3.amazonaws.com/hyper-li
     && tar -xzf /tmp/hyper.tar.gz -C /usr/bin && chmod +x /usr/bin/hyper \
     && rm /tmp/hyper.tar.gz
 
-VOLUME /root/.hyper/config.json:ro
+COPY 2i-web-rerun.sh /2i-web-rerun.sh
+
 CMD hyper
