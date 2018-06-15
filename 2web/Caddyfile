@@ -20,6 +20,10 @@ header / {
        -Server
 }
 
+tls {
+       key_type rsa4096
+}
+
 log stdout
  
 errors stdout
