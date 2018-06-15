@@ -25,5 +25,4 @@ tls {
 }
 
 log stdout
- 
 errors stdout
