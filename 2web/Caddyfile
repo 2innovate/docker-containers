@@ -6,6 +6,7 @@ root /srv/2web
 git {
    repo git@github.com:2innovate/2innovate.at
    key /root/.caddy/id_rsa
+   clone_args --verbose
    hook /webhook 7faa79ef3eb2f66879
 }   
 
