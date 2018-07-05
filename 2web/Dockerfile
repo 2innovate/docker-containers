@@ -1,4 +1,4 @@
-FROM abiosoft/caddy
+FROM abiosoft/caddy:no-stats
 
 MAINTAINER Harald Acker <hello@2innovate.at>
 
