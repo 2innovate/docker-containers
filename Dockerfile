@@ -18,6 +18,20 @@ RUN wget -q -O /tmp/hyper.tar.gz https://hyper-install.s3.amazonaws.com/hyper-li
     && tar -xzf /tmp/hyper.tar.gz -C /usr/bin && chmod +x /usr/bin/hyper \
     && rm /tmp/hyper.tar.gz
 
+# install nodejs
+RUN apk add nodejs npm
+
+# install typescript
+RUN npm install -g typescript
+
+# install libgit2
+RUN apk add libgit2
+
 COPY 2i-web-rerun.sh /2i-web-rerun.sh
+
+COPY github-monitor /github-monitor
+
+# Install required modules and compile
+RUN cd /github-monitor && npm install && npm run build
 
 CMD hyper
