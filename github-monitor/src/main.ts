@@ -2,18 +2,25 @@
 
 import * as octorest from '@octokit/rest'
 import * as https from 'https'
+import * as git from 'simple-git/promise'
 
-const octokit = new octorest()
+const originRemote = "https://2innovate:" + process.env["GITHUB_AUTHTOKEN"] + "@github.com/2innovate/caddy-docker";
+const upstreamRemote = "https://github.com/abiosoft/caddy-docker";
+const workingDir = "caddy-docker-repo"
 
-octokit.repos.getLatestRelease({
-    owner: "mholt",
-    repo: "caddy"
-  }).then(({data, headers, status}) => {
-    console.log("Release name: " + data.name)
-    console.log("Git tag: " + data.tag_name)
-  })
+async function getLatestCaddyRelease() {
+  const octokit = new octorest()
 
-https.get('https://hub.docker.com/v2/repositories/2innovate/2i-web/tags/', (res) => {
+  octokit.repos.getLatestRelease({
+      owner: "mholt",
+      repo: "caddy"
+    }).then(({data, headers, status}) => {
+      tagExistsInDockerHub(data.tag_name);
+    })
+}
+
+function tagExistsInDockerHub(tagName) {
+  https.get('https://hub.docker.com/v2/repositories/2innovate/caddy/tags/', (res) => {
     res.setEncoding("utf8");
     let body = "";
     res.on("data", data => {
@@ -21,10 +28,25 @@ https.get('https://hub.docker.com/v2/repositories/2innovate/2i-web/tags/', (res)
     });
     res.on("end", () => {
       let bodyJSON: any = JSON.parse(body);
-      console.log(`Count: ${bodyJSON.count}`)
       for (var r of bodyJSON.results) {
-          console.log(`Tag name: ${r.name}`)
+        if (r.name == tagName) {
+          // Tag already exists, so we exit
+          return(true);
+        }
       }
+      // Tag not found, so we create it
+      createNewBranch(workingDir, tagName);
     });
   });
-  
+}
+
+async function createNewBranch(workingDir, release) {
+  await git().silent(false).clone(originRemote, workingDir);
+  await git(workingDir).addRemote("upstream", upstreamRemote);
+  await git(workingDir).checkout('master');
+  await git(workingDir).pull("upstream", "master");
+  await git(workingDir).push("origin", "master");
+  await git(workingDir).push("origin", `master:${release}`);
+}
+
+getLatestCaddyRelease().catch((err) => console.error('failed: ', err));
