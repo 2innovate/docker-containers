@@ -41,12 +41,17 @@ function tagExistsInDockerHub(tagName) {
 }
 
 async function createNewBranch(workingDir, release) {
-  await git().silent(false).clone(originRemote, workingDir);
-  await git(workingDir).addRemote("upstream", upstreamRemote);
-  await git(workingDir).checkout('master');
-  await git(workingDir).pull("upstream", "master");
-  await git(workingDir).push("origin", "master");
-  await git(workingDir).push("origin", `master:${release}`);
+  try {
+    await git().silent(false).clone(originRemote, workingDir);
+    await git(workingDir).addRemote("upstream", upstreamRemote);
+    await git(workingDir).checkout('master');
+    await git(workingDir).pull("upstream", "master");
+    await git(workingDir).push("origin", "master");
+    await git(workingDir).push("origin", `master:${release}`);
+  } catch(err) {
+    console.error('failed: ', err);
+    process.exit(2);
+  }
 }
 
-getLatestCaddyRelease().catch((err) => console.error('failed: ', err));
+getLatestCaddyRelease().catch((err) => {console.error('failed: ', err); process.exit(1)});
