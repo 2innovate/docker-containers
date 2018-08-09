@@ -1,0 +1,21 @@
+{
+  "name": "github-monitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --outDir bin"
+  },
+  "author": "Gerhard Poul",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "typescript": "^2.9.2",
+    "@types/node": "^10.5.2"
+  },
+  "dependencies": {
+    "@octokit/rest": "^15.9.4",
+    "@types/node": "^10.5.7",
+    "simple-git": "^1.96.0"
+  }
+}
