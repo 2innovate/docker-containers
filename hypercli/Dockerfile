@@ -2,7 +2,7 @@ FROM alpine:latest
 MAINTAINER Akhyar Amarullah "akhyrul@gmail.com"
 
 # system dependencies
-RUN apk update && apk upgrade; apk add wget tar openssl ca-certificates \
+RUN apk update && apk upgrade; apk add git wget tar openssl ca-certificates \
     && update-ca-certificates \
     && rm -rf /var/cache/apk/*
 
