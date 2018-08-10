@@ -11,7 +11,7 @@ RUN apk update && apk upgrade; apk add git wget tar openssl ca-certificates \
 ARG GLIBC_VERSION=2.23-r3
 RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
     && wget -q -O /tmp/glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \
-    && apk add /tmp/glibc.apk && rm /tmp/glibc.apk
+    && apk add --no-cache /tmp/glibc.apk && rm /tmp/glibc.apk
 
 # install hyper
 RUN wget -q -O /tmp/hyper.tar.gz https://hyper-install.s3.amazonaws.com/hyper-linux-x86_64.tar.gz \
@@ -19,13 +19,13 @@ RUN wget -q -O /tmp/hyper.tar.gz https://hyper-install.s3.amazonaws.com/hyper-li
     && rm /tmp/hyper.tar.gz
 
 # install nodejs
-RUN apk add nodejs npm
+RUN apk add --no-cache nodejs npm
 
 # install typescript
 RUN npm install -g typescript
 
 # install libgit2
-RUN apk add libgit2
+RUN apk add --no-cache libgit2
 
 COPY 2i-web-rerun.sh /2i-web-rerun.sh
 
