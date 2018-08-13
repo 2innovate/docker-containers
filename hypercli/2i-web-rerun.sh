@@ -49,7 +49,7 @@ hyper fip attach 169.197.100.129 "$CONTAINER_NAME"-"$NEW_SUFFIX"
 
 sleep 5
 
-if [ "curl -sw %{http_code} --output /dev/null https://$URL" != "200" ]; then
+if [ "curl -sw %{http_code} --output /dev/null $URL" != "200" ]; then
     echo "Caddy start went wrong..."
     hyper fip detach "$CONTAINER_NAME"-"$NEW_SUFFIX"
     hyper fip attach 169.197.100.129 "$CONTAINER_NAME"-"$OLD_SUFFIX"
