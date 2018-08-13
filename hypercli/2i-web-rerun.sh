@@ -8,11 +8,11 @@ VOLUME_NAME="2i-web-keys"
 URL="https://2innovate.at/"
 
 if [ "$(hyper volume ls -f image=$IMAGE -q)" == $VOLUME_NAME"-schwub" ]; then
-    NEW_SUFFIX="blue"
+    NEW_SUFFIX="blub"
     OLD_SUFFIX="schwub"
 else
     NEW_SUFFIX="schwub"
-    OLD_SUFFIX="blue"
+    OLD_SUFFIX="blub"
 fi
 
 hyper pull $IMAGE
