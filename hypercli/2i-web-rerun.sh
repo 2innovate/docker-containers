@@ -35,7 +35,7 @@ if [ $? -ne 0 ]; then
     if [ $? -ne 0 ]; then
         echo "hyper run went wrong..."
         hyper stop "$CONTAINER_NAME"-"$NEW_SUFFIX"
-        hyper rm --volume "$CONTAINER_NAME"-"$NEW_SUFFIX"
+        hyper rm --volumes "$CONTAINER_NAME"-"$NEW_SUFFIX"
         hyper volume rm "$VOLUME_NAME"-"$OLD_SUFFIX"
 
         if [ "$(hyper images -f "dangling=true" -q)" != "" ]; then
@@ -47,16 +47,18 @@ fi
 hyper fip detach "$CONTAINER_NAME"-"$OLD_SUFFIX"
 hyper fip attach 169.197.100.129 "$CONTAINER_NAME"-"$NEW_SUFFIX"
 
-sleep 5
+sleep 10
 
-if [ "curl -sw %{http_code} --output /dev/null $URL" != "200" ]; then
+curl --output /dev/null --silent --fail $URL
+
+if [ "$?" != "0" ]; then
     echo "Caddy start went wrong..."
     hyper fip detach "$CONTAINER_NAME"-"$NEW_SUFFIX"
     hyper fip attach 169.197.100.129 "$CONTAINER_NAME"-"$OLD_SUFFIX"
 
     hyper stop "$CONTAINER_NAME"-"$NEW_SUFFIX"
-    hyper rm --volume "$CONTAINER_NAME"-"$NEW_SUFFIX"
-    hyper volume rm "$VOLUME_NAME"-"$OLD_SUFFIX"
+    hyper rm --volumes "$CONTAINER_NAME"-"$NEW_SUFFIX"
+    hyper volume rm "$VOLUME_NAME"-"$NEW_SUFFIX"
 else
     hyper stop "$CONTAINER_NAME"-"$OLD_SUFFIX"
     hyper rm --volumes "$CONTAINER_NAME"-"$OLD_SUFFIX"
