@@ -9,7 +9,7 @@ RUN apk update && apk upgrade; apk add git wget curl tar openssl ca-certificates
 # workaround, because hyper-cli needs glibc that's not available on alpine by default
 # https://github.com/sgerrand/alpine-pkg-glibc
 ARG GLIBC_VERSION=2.23-r3
-RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
+RUN wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub \
     && wget -q -O /tmp/glibc.apk https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \
     && apk add --no-cache /tmp/glibc.apk && rm /tmp/glibc.apk
 
