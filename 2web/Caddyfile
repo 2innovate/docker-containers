@@ -25,5 +25,5 @@ tls {
        key_type rsa4096
 }
 
-log / stdout "[{when}] \"{method} {uri} {proto}\" {status}"
+log / stdout "[{when}] {status} {proto} \"{method} {uri}\""
 errors stdout
