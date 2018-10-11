@@ -5,7 +5,27 @@
       repo git@github.com:2innovate/2innovate.at
       key /root/.caddy/id_rsa
       hook /webhook 7faa79ef3eb2f66879
-   } 
+   }  
+
+   tls hello@2innovate.at  
+   tls {
+      key_type rsa4096
+   }  
+   
+   header / {
+          Strict-Transport-Security "max-age=15768000;"
+          X-XSS-Protection "1; mode=block"
+          X-Content-Type-Options "nosniff"
+          X-Frame-Options "DENY"
+          Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://hello.myfonts.net/count/309f7b; connect-src 'self' 'unsafe-inline'    'unsafe-eval'; upgrade-insecure-requests; block-all-mixed-content; reflected-xss block;"
+          Referrer-Policy "strict-origin"
+          Expect-CT "max-age=0"
+          Feature-Policy "geolocation 'none'; midi 'none'; notifications 'none'; push 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment 'none'"
+          Server "nothing to see here move along"
+   }  
+
+   log / stdout "[{when}] {status} {proto} \"{method} {uri}\""
+   errors stdout
 }
 
 blog.2innovate.at {
@@ -17,26 +37,22 @@ blog.2innovate.at {
 #      interval 900
 #      path /tmp/2blog
 #      then  hugo --destination=/srv/2blog
-   } 
+   }  
+
+   tls hello@2innovate.at  
+   
+   header / {
+          Strict-Transport-Security "max-age=15768000;"
+          X-XSS-Protection "1; mode=block"
+          X-Content-Type-Options "nosniff"
+          X-Frame-Options "DENY"
+          Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://hello.myfonts.net/count/309f7b; connect-src 'self' 'unsafe-inline'    'unsafe-eval'; upgrade-insecure-requests; block-all-mixed-content; reflected-xss block;"
+          Referrer-Policy "strict-origin"
+          Expect-CT "max-age=0"
+          Feature-Policy "geolocation 'none'; midi 'none'; notifications 'none'; push 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment 'none'"
+          Server "nothing to see here move along"
+   }
+
+   log / stdout "[{when}] {status} {proto} \"{method} {uri}\""
+   errors stdout
 }
-
-tls hello@2innovate.at  
-
-header / {
-       Strict-Transport-Security "max-age=15768000;"
-       X-XSS-Protection "1; mode=block"
-       X-Content-Type-Options "nosniff"
-       X-Frame-Options "DENY"
-       Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://hello.myfonts.net/count/309f7b; connect-src 'self' 'unsafe-inline'    'unsafe-eval'; upgrade-insecure-requests; block-all-mixed-content; reflected-xss block;"
-       Referrer-Policy "strict-origin"
-       Expect-CT "max-age=0"
-       Feature-Policy "geolocation 'none'; midi 'none'; notifications 'none'; push 'none'; sync-xhr 'none'; microphone 'none'; camera 'none'; magnetometer 'none'; gyroscope 'none'; speaker 'none'; vibrate 'none'; fullscreen 'none'; payment 'none'"
-       Server "nothing to see here move along"
-}
-
-tls {
-       key_type rsa4096
-}
-
-log / stdout "[{when}] {status} {proto} \"{method} {uri}\""
-errors stdout
