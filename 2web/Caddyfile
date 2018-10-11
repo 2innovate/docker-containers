@@ -1,13 +1,26 @@
-2innovate.at
-tls hello@2innovate.at
- 
-root /srv/2web
+2innovate.at {
+   root /srv/2web
+   
+   git {
+      repo git@github.com:2innovate/2innovate.at
+      key /root/.caddy/id_rsa
+      hook /webhook 7faa79ef3eb2f66879
+   } 
+}
 
-git {
-   repo git@github.com:2innovate/2innovate.at
-   key /root/.caddy/id_rsa
-   hook /webhook 7faa79ef3eb2f66879
-}   
+blog.2innovate.at {
+   root /srv/2blog
+   
+   git {
+      repo git@github.com:2innovate/2i-blog
+      key /root/.caddy/id_blog
+#      interval 900
+#      path /tmp/2blog
+#      then  hugo --destination=/srv/2blog
+   } 
+}
+
+tls hello@2innovate.at  
 
 header / {
        Strict-Transport-Security "max-age=15768000;"
