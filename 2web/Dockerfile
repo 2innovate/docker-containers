@@ -3,7 +3,7 @@ FROM abiosoft/caddy:no-stats
 MAINTAINER Harald Acker <hello@2innovate.at>
 
 # system dependencies
-RUN apk update;apk upgrade; apk add curl wget
+RUN apk update;apk upgrade; apk add curl wget libstdc++
 
 # workaround, because hugo needs glibc that's not available on alpine by default
 # https://github.com/sgerrand/alpine-pkg-glibc
