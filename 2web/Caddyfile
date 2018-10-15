@@ -36,7 +36,7 @@ blog.2innovate.at {
       key /root/.caddy/id_blog
 #      interval 900
 #      path /tmp/2blog
-#      then  hugo --destination=/srv/2blog
+#      then  hugo -s /tmp/2blog --destination=/srv/2blog
    }  
 
    tls hello@2innovate.at  
