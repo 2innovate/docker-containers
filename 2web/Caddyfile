@@ -9,7 +9,10 @@
 
    tls hello@2innovate.at  
    tls {
+      protocols tls1.2
       key_type rsa4096
+      ciphers ECDHE-RSA-CHACHA20-POLY1305 ECDHE-RSA-AES256-GCM-SHA384 ECDHE-RSA-AES256-SHA384 ECDHE-RSA-AES256-SHA
+      curves p521 p384
    }  
    
    header / {
