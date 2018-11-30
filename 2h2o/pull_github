@@ -1,0 +1,28 @@
+#!/bin/sh
+
+web=/srv/2web
+blog=/root/workspace/2blog
+
+if [ ! -d "$web" ]; then
+    git clone 2web:2innovate/2innovate.at.git $web
+else
+    git clone -C $web
+fi
+
+
+if [ ! -d "$blog" ]; then
+    git clone 2blog:2innovate/2innovate.at.git $blog
+else
+    git fetch -C $blog
+
+    UPSTREAM=${1:-'@{u}'}
+    LOCAL=$(git -C $blog rev-parse @)
+    REMOTE=$(git -C $blog rev-parse "$UPSTREAM")
+    BASE=$(git -C $blog merge-base @ "$UPSTREAM")
+    
+    if [ $LOCAL = $BASE ]; then
+        git pull -C $blog
+        cp -R /root/workspace/2blog /srv/2blog
+#        hugo -s /tmp/2blog --destination=/srv/2blog
+    fi
+fi
